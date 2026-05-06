@@ -13,7 +13,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/reports")
-@CrossOrigin("*") // React'tan gelen isteklerin engellenmemesi için
+@CrossOrigin("*") 
 public class ReportController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class ReportController {
             @RequestParam("category") String category) {
 
         try {
-            // Gelen tarihleri Java LocalDate formatına çeviriyoruz
+            
             LocalDate startDate = LocalDate.parse(start);
             LocalDate endDate = LocalDate.parse(end);
             
@@ -35,13 +35,13 @@ public class ReportController {
             String fileName;
             MediaType mediaType;
 
-            // Format ve Kategori Kontrolü
+            
             if ("pdf".equalsIgnoreCase(format)) {
                 stream = reportService.exportEnvironmentPdf(startDate, endDate);
                 fileName = "Ahir_Analiz_Raporu_" + start + ".pdf";
                 mediaType = MediaType.APPLICATION_PDF;
             } else {
-                // Excel Seçeneği
+               
                 if ("animal".equalsIgnoreCase(category)) {
                     stream = reportService.exportAnimalExcel(startDate, endDate);
                     fileName = "Hayvan_Verimlilik_Verisi_" + start + ".xlsx";
@@ -49,11 +49,11 @@ public class ReportController {
                     stream = reportService.exportEnvironmentExcel(startDate, endDate);
                     fileName = "Ahir_Ortam_Verileri_" + start + ".xlsx";
                 }
-                // Excel için özel Media Type
+               
                 mediaType = MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             }
 
-            // Dosyayı tarayıcıya "İNDİR" komutuyla gönderiyoruz
+            
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
                     .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION)
@@ -61,7 +61,7 @@ public class ReportController {
                     .body(new InputStreamResource(stream));
 
         } catch (Exception e) {
-            // Bir hata oluşursa konsola yazdır (404 yerine 500 hatası alırsak nedenini buradan görürüz)
+           
             System.err.println("Rapor oluşturma hatası: " + e.getMessage());
             return ResponseEntity.internalServerError().build();
         }

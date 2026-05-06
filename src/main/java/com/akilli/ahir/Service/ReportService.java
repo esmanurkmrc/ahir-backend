@@ -28,7 +28,7 @@ public class ReportService {
     @Autowired
     private AnimalProductivityRepository animalRepo;
 
-    // --- EXCEL METOTLARI ---
+   
 
     public ByteArrayInputStream exportEnvironmentExcel(LocalDate start, LocalDate end) throws IOException {
         String[] columns = {"ID", "Tarih", "Saat", "Sıcaklık (°C)", "Nem (%)", "Işık", "Amonyak"};
@@ -74,7 +74,7 @@ public class ReportService {
         }
     }
 
-    // --- PDF METODU ---
+    
 
     public ByteArrayInputStream exportEnvironmentPdf(LocalDate start, LocalDate end) throws DocumentException {
         Document document = new Document();
@@ -82,7 +82,7 @@ public class ReportService {
         PdfWriter.getInstance(document, out);
         document.open();
 
-        // HATA BURADAYDI: Font yerine com.itextpdf.text.Font kullandık
+        
         com.itextpdf.text.Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14);
         Paragraph title = new Paragraph("AKILLI AHIR ANALIZ RAPORU (" + start + " / " + end + ")", headFont);
         title.setAlignment(Element.ALIGN_CENTER);
@@ -113,12 +113,12 @@ public class ReportService {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    // Yardımcı Excel Başlık Fonksiyonu
+    
     private void createExcelHeader(Workbook workbook, Sheet sheet, String[] columns, short color) {
         Row headerRow = sheet.createRow(0);
         CellStyle style = workbook.createCellStyle();
         
-        // HATA BURADAYDI: Font yerine org.apache.poi.ss.usermodel.Font kullandık
+        
         org.apache.poi.ss.usermodel.Font font = workbook.createFont();
         font.setBold(true);
         font.setColor(IndexedColors.WHITE.getIndex());

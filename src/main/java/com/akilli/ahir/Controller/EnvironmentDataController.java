@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.akilli.ahir.DTO.response.DashboardStatsResponse;
 import com.akilli.ahir.Model.EnvironmentData;
-import com.akilli.ahir.Repository.EnvironmentDataRepository; // Yeni servisi import et
-import com.akilli.ahir.Service.DashboardService; // DTO'yu import et
+import com.akilli.ahir.Repository.EnvironmentDataRepository;
+import com.akilli.ahir.Service.DashboardService;
 
 @RestController
 @RequestMapping("/api/environment")
@@ -21,38 +21,43 @@ import com.akilli.ahir.Service.DashboardService; // DTO'yu import et
 public class EnvironmentDataController {
 
     private final EnvironmentDataRepository environmentDataRepository;
-    private final DashboardService dashboardService; // Servisi tanımla
+    private final DashboardService dashboardService;
 
-    // Constructor'a DashboardService'i ekle
     public EnvironmentDataController(EnvironmentDataRepository environmentDataRepository, DashboardService dashboardService) {
         this.environmentDataRepository = environmentDataRepository;
         this.dashboardService = dashboardService;
     }
 
-    // 🚀 YENİ EKLENEN: Sidebar Kartları İçin Canlı İstatistikler
+    
+    @GetMapping("/latest")
+    public ResponseEntity<EnvironmentData> getLatestData() {
+       
+        return environmentDataRepository.findAllByOrderByTarihAsc()
+                .stream()
+                .reduce((first, second) -> second) 
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @GetMapping("/stats")
     public ResponseEntity<DashboardStatsResponse> getDashboardStats() {
         return ResponseEntity.ok(dashboardService.getLatestDashboardStats());
     }
 
-    // Tüm veriler (sıralı)
     @GetMapping
     public List<EnvironmentData> getAll() {
         return environmentDataRepository.findAllByOrderByTarihAsc();
     }
 
-    // Belirli tarih
     @GetMapping("/date")
     public List<EnvironmentData> getByDate(@RequestParam String tarih) {
         return environmentDataRepository.findByTarih(LocalDate.parse(tarih));
     }
 
-    // Tarih aralığı
     @GetMapping("/range")
     public List<EnvironmentData> getByRange(
             @RequestParam String start,
             @RequestParam String end) {
-
         return environmentDataRepository.findByTarihBetween(
                 LocalDate.parse(start),
                 LocalDate.parse(end)

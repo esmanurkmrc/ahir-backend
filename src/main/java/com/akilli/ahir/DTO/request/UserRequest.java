@@ -6,7 +6,7 @@ public class UserRequest {
     private String email;
     private String sifre;
 
-    // Getter ve Setterlar
+    
     public String getAd() { 
         return ad; 
     }

@@ -1,6 +1,6 @@
 package com.akilli.ahir.Factory;
 
-// BU SATIRI EKLEMEN ŞART:
+
 import com.akilli.ahir.Model.Hayvan; 
 
 import org.springframework.stereotype.Component;

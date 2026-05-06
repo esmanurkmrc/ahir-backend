@@ -24,7 +24,7 @@ public class DashboardService {
     }
 
     public DashboardStatsResponse getLatestDashboardStats() {
-        // 1. En güncel ortam verisini çek (Sidebar'daki Amonyak, Sıcaklık, Nem için)
+       
         Optional<EnvironmentData> latestOpt = environmentDataRepository.findFirstByOrderByIdDesc();
         
         if (latestOpt.isEmpty()) {
@@ -33,15 +33,14 @@ public class DashboardService {
 
         EnvironmentData latest = latestOpt.get();
 
-        // 2. Günlük Süt Verimini Hesapla (Repository'ndeki tüm verilerin sonuncusunu veya toplamını alabiliriz)
-        // Şimdilik sistemdeki en son süt verisini çekelim (örnek amaçlı)
-        double sonSutVerimi = 412.0; // Varsayılan değer
+       
+        double sonSutVerimi = 412.0; 
 
-        // 3. RİSK SKORU HESAPLAMA (Karar Destek Sistemi Mantığı)
+        
         int risk = 0;
-        if (latest.getAmonyak() > 25) risk += 50; // Amonyak tehlikesi
-        if (latest.getSicaklik() > 28) risk += 25; // Sıcaklık stresi
-        if (latest.getNem() > 80) risk += 25;      // Nem/Bakteri riski
+        if (latest.getAmonyak() > 25) risk += 50; 
+        if (latest.getSicaklik() > 28) risk += 25; 
+        if (latest.getNem() > 80) risk += 25;      
         
         risk = Math.min(risk, 100);
 

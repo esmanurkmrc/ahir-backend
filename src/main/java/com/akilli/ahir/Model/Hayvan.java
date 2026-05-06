@@ -17,14 +17,14 @@ public class Hayvan {
     private String irk;
     private String cinsiyet;
     private LocalDate dogumTarihi;
-    private String durum; // Sağlıklı, Tedavide, Gebe, Kuru vb.
+    private String durum; 
     private Double sonAgirlik;
     private Double gunlukSutVerimi;
 
     @Column(length = 1000)
     private String asiTakvimi;
 
-    // --- GETTER VE SETTER METOTLARI ---
+
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

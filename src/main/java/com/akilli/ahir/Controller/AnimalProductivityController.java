@@ -24,25 +24,25 @@ public class AnimalProductivityController {
         this.animalProductivityRepository = animalProductivityRepository;
     }
 
-    // Tüm veriler
+    
     @GetMapping
     public List<AnimalProductivity> getAll() {
         return animalProductivityRepository.findAll();
     }
 
-    // Hayvana göre
+    
     @GetMapping("/{hayvanId}")
     public List<AnimalProductivity> getByHayvanId(@PathVariable int hayvanId) {
         return animalProductivityRepository.findByHayvanId(hayvanId);
     }
 
-    // Belirli tarih
+    
     @GetMapping("/date")
     public List<AnimalProductivity> getByDate(@RequestParam String tarih) {
         return animalProductivityRepository.findByTarih(LocalDate.parse(tarih));
     }
 
-    // Hayvan + tarih aralığı
+    
     @GetMapping("/range")
     public List<AnimalProductivity> getByRange(
             @RequestParam int hayvanId,

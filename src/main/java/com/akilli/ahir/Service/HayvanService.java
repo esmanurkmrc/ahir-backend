@@ -19,22 +19,22 @@ public class HayvanService {
         this.hayvanFactory = hayvanFactory;
     }
 
-    // TÜM HAYVANLARI LİSTELE
+    
     public List<Hayvan> tumHayvanlar() {
         return hayvanRepository.findAll();
     }
 
-    // YENİ HAYVAN EKLE (Factory Kullanarak)
+  
     public Hayvan hayvanKaydet(String tur, Hayvan data) {
 
         if (hayvanRepository.existsByKupeNo(data.getKupeNo())) {
             throw new RuntimeException("Bu Küpe No zaten kayıtlı!");
         }
 
-        // Factory ile hayvan oluştur
+        
         Hayvan yeniHayvan = hayvanFactory.createHayvan(tur);
 
-        // Verileri aktar
+       
         yeniHayvan.setKupeNo(data.getKupeNo());
         yeniHayvan.setIrk(data.getIrk());
         yeniHayvan.setCinsiyet(data.getCinsiyet());
@@ -47,7 +47,7 @@ public class HayvanService {
         return hayvanRepository.save(yeniHayvan);
     }
 
-    // HAYVAN GÜNCELLE
+   
     public Hayvan hayvanGuncelle(Long id, Hayvan data) {
 
         Hayvan hayvan = hayvanRepository.findById(id)
@@ -65,7 +65,7 @@ public class HayvanService {
         return hayvanRepository.save(hayvan);
     }
 
-    // HAYVAN SİL
+   
     public void hayvanSil(Long id) {
         hayvanRepository.deleteById(id);
     }
